@@ -1,6 +1,3 @@
-# AskDu-AI-Driven-Career-Navigation-and-College-Counselling-Assistance
-Certainly! Here's a template for a README file that you can use for your AI-driven career navigation and college counselling assistance project. Customize it to fit your specific project's details:
-
 ---
 
 # AskDu: AI-Driven Career Navigation and College Counselling Assistance
