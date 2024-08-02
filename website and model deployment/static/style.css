@@ -1,0 +1,994 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+}
+body {
+    height: 100vh;
+    width: 100%;
+    /* background: url("chatbot\ background.jpg") center/cover no-repeat; */
+}
+header {
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    left: 0;
+    z-index: 10;
+    padding: 0 10px;
+    padding-top: 8px;
+    padding-bottom: 20px;
+    border-bottom: solid 2px rgb(255, 27, 187);
+    background: url("chatbot\ background.jpg") center/cover no-repeat
+}
+
+.navbar {
+    display: flex;
+    padding: 22px 0;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+    padding-bottom: 0px;
+    margin-bottom: 0;
+}
+.navbar .hamburger-btn {
+    display: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+.navbar .logo {
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+.navbar .logo img {
+    width: 45px;
+    border-radius: 50%;
+}
+.navbar .logo h2 {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.7rem;
+}
+.navbar .links {
+    display: flex;
+    gap: 35px;
+    list-style: none;
+    align-items: center;
+}
+.navbar .close-btn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: none;
+    color: #000;
+    cursor: pointer;
+}
+.navbar .links a {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.1s ease;
+}
+.navbar .links a:hover {
+    color: #cf2393;
+}
+.navbar .login-btn {
+    border: none;
+    outline: none;
+    background: #fff;
+    color: #d12193;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+.navbar .login-btn:hover {
+    background: #ddd;
+}
+.navbar #goback{
+    border: none;
+    outline: none;
+    background: #fff;
+    color: #d12193;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+.general {
+    margin-left: 15%;
+    margin-top: 15%; 
+    max-width: 1090px;
+    color: rgb(238, 74, 200);
+    background: linear-gradient(20deg,#d12193, #b823cf);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: flex;
+    justify-content: space-around;
+
+    animation-name: fadeInAnimation;
+    animation-duration: 2s;
+}
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.general h1{
+    font-size: 50px;
+    font-weight: 600;
+    padding-top: 40px;
+
+    animation-name: slideInAnimation;
+    animation-duration: 1s;
+}
+
+@keyframes slideInAnimation {
+    from {
+        margin-left: -100px;
+        opacity: 0;
+    }
+    to {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+.general p{
+    padding-top: 35px;
+    margin: 10px 0 30px;
+    font-size: 20px;
+    color: rgb(88, 172, 255);
+
+    animation-name: slideUpAnimation;
+    animation-duration: 1.5s;
+}
+
+@keyframes slideUpAnimation {
+    from {
+        margin-top: 50px;
+        opacity: 0;
+    }
+    to {
+        margin-top: 0;
+        opacity: 1;
+    }
+}
+.cont{
+    display: block;
+
+}
+.genimg{
+    bottom: 0 ;
+    right: 13%;
+    left: 5%;
+    padding-top: 25px;
+}
+.genimg img{
+    padding-left: 13px;
+    padding-bottom: 13px;
+    padding-top: 9px;
+    width: 310px;
+
+    animation-name: slideDownImage;
+    animation-duration: 3s;
+}
+
+@keyframes slideDownImage {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.form-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    max-width: 720px;
+    background: #ffffff;
+    border: 2px solid #f1f1f1;
+    transform: translate(-50%, -70%);
+    border-radius: 5px;
+    box-shadow: #717171;
+}
+.show-popup .form-popup {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease, opacity 0.1s;
+}
+.form-popup .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: #878484;
+    cursor: pointer;
+}
+.blur-bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: 0.1s ease;
+}
+.show-popup .blur-bg-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+.form-popup .form-box {
+    display: flex;
+}
+.form-box .form-details {
+    width: 100%;
+    color: #fff;
+    max-width: 330px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login .form-details {
+    padding: 0 40px;
+    background: url("chatbot\ background.jpg");
+    background-position: center;
+    background-size: cover;
+    border-radius: 5px;
+}
+.signup .form-details {
+    padding: 0 20px;
+    background: url("chatbot\ background.jpg");
+    background-position: center;
+    background-size: cover;
+    border-radius: 5px;
+}
+.form-box .form-content {
+    width: 100%;
+    padding: 35px;
+}
+.form-box h2 {
+    text-align: center;
+    margin-bottom: 29px;
+}
+.form-box img{
+    width: 60px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+form .input-field {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+.input-field input {
+    height: 100%;
+    width: 100%;
+    background: none;
+    outline: none;
+    font-size: 0.95rem;
+    padding: 0 15px;
+    border: 1px solid #717171;
+    border-radius: 3px;
+}
+.input-field input:focus {
+    border: 1px solid #d400bf;
+}
+.input-field label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #4a4646;
+    pointer-events: none;
+    transition: 0.2s ease;
+}
+.input-field input:is(:focus, :valid) {
+    padding: 16px 15px 0;
+}
+.input-field input:is(:focus, :valid)~label {
+    transform: translateY(-120%);
+    color: #d400bf;
+    font-size: 0.75rem;
+}
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+}
+.form-box a {
+    color: #d400b1;
+    text-decoration: none;
+}
+.form-box a:hover {
+    text-decoration: underline;
+}
+form :where(.forgot-pass-link, .policy-text) {
+    display: inline-flex;
+    margin-top: 13px;
+    font-size: 0.95rem;
+}
+form button {
+    width: 100%;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 14px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 25px 0;
+    background: linear-gradient(80deg,#d12193, #cf23cf);
+    transition: 0.2s ease;
+}
+form button:hover {
+    background: #c70299c9;
+}
+.form-content .bottom-link {
+    text-align: center;
+}
+.form-popup .signup,
+.form-popup.show-signup .login {
+    display: none;
+}
+.form-popup.show-signup .signup {
+    display: flex;
+}
+.signup .policy-text {
+    display: flex;
+    margin-top: 14px;
+    align-items: center;
+}
+.signup .policy-text input {
+    width: 14px;
+    height: 14px;
+    margin-right: 7px;
+}
+@media (max-width: 950px) {
+    .navbar :is(.hamburger-btn, .close-btn) {
+        display: block;
+    }
+    .navbar {
+        padding: 15px 0;
+    }
+    .navbar .logo img {
+        display: none;
+    }
+    .navbar .logo h2 {
+        font-size: 1.4rem;
+    }
+    .navbar .links {
+        position: fixed;
+        top: 0;
+        z-index: 10;
+        left: -100%;
+        display: block;
+        height: 100vh;
+        width: 100%;
+        padding-top: 60px;
+        text-align: center;
+        background: #fff;
+        transition: 0.2s ease;
+    }
+    .navbar .links.show-menu {
+        left: 0;
+    }
+    .navbar .links a {
+        display: inline-flex;
+        margin: 20px 0;
+        font-size: 1.2rem;
+        color: #000;
+    }
+    .navbar .links a:hover {
+        color: #cf2393;
+    } 
+    .navbar .login-btn {
+        font-size: 0.9rem;
+        padding: 7px 10px;
+    }
+}
+@media (max-width: 760px) {
+    .form-popup {
+        width: 95%;
+    }
+    .form-box .form-details {
+        display: none;
+    }
+    .form-box .form-content {
+        padding: 30px 20px;
+    }
+}
+
+/* The side navigation menu */
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 330px;
+    left: 5px;
+    border-right: solid 2px white;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    top: 100px;
+    border-radius: 5px;
+  } 
+  .sidebar .cutcal {
+    border: none;
+    outline: none;
+    background: #fff;
+    color: #d12193;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+  .sidebar .cutcal:hover {
+    background: #ddd;
+  }
+  .calmodule{
+    text-align: center;
+    margin: 2px;
+  }
+  .sidebar .download{
+    border: none;
+    outline: none;
+    background: #fff;
+    color: #d12193;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+  .sidebar .download:hover{
+    background: #ddd;
+  }
+  .downmodule{
+    text-align: center;
+    margin: 2px;
+  }
+ /* chatbox */
+ .chatbox {
+    margin: 0;
+    padding: 0;
+    right: 5px;
+    width: 1190px;
+    border-right: solid 2px white;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    top: 100px;
+    border-radius: 5px;
+    background-color: white;
+    bottom: 15px;
+  } 
+
+.conversation{
+    height: 520px;
+    border: solid 2px #d12193a3;
+    margin: 10px;
+    border-radius: 5px;
+    overflow-y: auto;
+    padding: 10px;
+  }
+
+.message {
+    margin-bottom: 10px;
+    padding: 18px;
+    border-radius: 30px;
+    max-width: 50%; /* Adjust as needed */
+    clear: both;
+}
+.received-message, .sent-message{
+    margin: 20px;
+    /* animation: slideIn 0.5s ease forwards; */
+}
+.received {
+    background-color: #f0f0f0;
+    border-top-left-radius: 0px;
+    align-self: flex-start;
+    float: left;
+    animation: slideIn 0.5s ease forwards;
+}
+.sent {
+    background-color: #e95fb9eb;
+    color: white;
+    border-bottom-right-radius: 0px;
+    align-self: flex-end;
+    float: right;
+    animation: slideIn 1s ease forwards;
+}
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.receiver-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    float: left;
+}
+
+.receiver-info img{
+    width: 50px;
+    padding: 8px;
+}
+.sender-info {
+    display: flex;
+    align-items: center;
+    float: right;
+    margin-bottom: 5px;
+}
+.sender-info i {
+    font-size: 21px;
+    margin: 10px;
+    color: #646161;
+}
+.conversation span {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.message-text {
+    word-wrap: break-word; /* Wrap long words */
+}
+
+#message-form {
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 800px;
+    text-align: center;
+    padding: 0px 25px 0 25px;
+    box-shadow: grey;
+ }
+.message-wrapper {
+    position: relative;
+}
+
+#message::placeholder {
+    color: rgb(44, 44, 44);
+}
+#message {
+    background: white;
+    border-radius: 50px;
+    width: 100%;
+    box-sizing: border-box;
+    resize: none;
+    padding: 10px 65px 14px 15px;
+    font-family: inherit;
+    font-size: 1em;
+    box-shadow: rgba(0,0,0,0.2) 0 0 45px;
+    outline: none;
+    border: solid 1px rgb(169, 169, 169);
+}
+.send-button {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #e139a6eb;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 1em;
+    padding: 12px 50px;
+    color: white;
+    border: none;
+    margin: -3px;
+    border-radius: 50px;
+    line-height: 1.5;
+    text-align: center;
+    width: 180px;
+}
+button.send-button:hover {
+    border: solid 2px #d12193;
+    background: white;
+    color: #d12193;
+}
+/* calculator popup */
+.cal-blur-bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: 0.1s ease;
+}
+.show-calpopup .cal-blur-bg-overlay{
+    opacity: 1 ;
+    pointer-events: auto;
+}
+.calculator-popup{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    max-width: 520px;
+    background: #ffffff;
+    border: 2px solid #e5e4e4;
+    transform: translate(-50%, -70%);
+    border-radius: 5px;
+    box-shadow: #676767;
+}
+.show-calpopup .calculator-popup{
+    opacity: 1 ;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease, opacity 0.1s;
+}
+.calculator-popup .close-btn{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: #717171;
+    cursor: pointer;
+}
+.calculator-popup h2{
+    text-align: center;
+    margin-bottom: 30px;
+    color: #cf2393;
+}
+.calculator-popup h4{
+    color: #717171;
+}
+.calculator-popup .calcontent{
+    width: 100%;
+    padding: 35px;
+}
+.calcontent form .input-field{
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+.calcontent form .input-field input{
+    width: 100%;
+    height: 100%;
+    font-size: 0.95rem;
+    border: 1px solid rgb(105, 105, 105);
+    outline: none;
+    border-radius: 3px;
+    padding: 0 15px;
+}
+.calcontent form .input-field input:focus{
+    border-color: #cf2393;
+}
+.calcontent form .input-field input:is(:focus, :valid) {
+    padding: 16px 15px 0;
+}
+.calcontent form .input-field label{
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    color: #717171;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: 0.2s ease;
+}
+.calcontent form .input-field input:is(:focus, :valid) ~ label{
+    color: #cf2393;
+    font-size: 0.75rem;
+    transform: translateY(-120%);
+}
+#result{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+@media (max-width: 760px){
+    .calculator-popup{
+        width: 95%;
+    }
+    .calculator-popup .calcontent{
+        padding: 30px 20px;
+    }
+}
+
+/* download popup */
+.down-blur-bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: 0.1s ease;
+}
+.show-downpopup .down-blur-bg-overlay{
+    opacity: 1 ;
+    pointer-events: auto;
+}
+.download-popup{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    max-width: 520px;
+    background: #ffffff;
+    border: 2px solid #e5e4e4;
+    transform: translate(-50%, -70%);
+    border-radius: 5px;
+    box-shadow: #676767;
+}
+.show-downpopup .download-popup{
+    opacity: 1 ;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease, opacity 0.1s;
+}
+.download-popup .close-btn{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: #717171;
+    cursor: pointer;
+}
+.download-popup h2{
+    text-align: center;
+    margin-bottom: 30px;
+    color: #cf2393;
+}
+.download-popup h4{
+    color: #717171;
+}
+.download-popup .downcontent{
+    width: 100%;
+    padding: 35px;
+}
+.download-popup button{
+        width: 45%;
+        color: #fff;
+        border: none;
+        outline: none;
+        padding: 14px 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 25px 0;
+        background: linear-gradient(80deg,#d12193, #cf23cf);
+        transition: 0.2s ease;
+}
+.download-popup button:hover {
+    background: #c70299c9;
+}
+.downcontent {
+    max-height: 480px; /* Adjust this value as needed */
+    overflow-y: auto;
+    padding: 10px; /* Add padding to ensure content is not cut off by scrollbar */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+@media (max-width: 760px){
+    .download-popup{
+        width: 95%;
+    }
+    .download-popup .downcontent{
+        padding: 30px 20px;
+    }
+}
+
+
+/* explore page */
+.searchcont{
+    width: 100%;
+    display: flex;
+    margin-top: 125px;
+    padding-bottom: 10px;
+    justify-content: center;
+}
+.searchcont form {
+    background: white;
+    width: 600px;
+    height: 49px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px; 
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px;
+    border: solid 2px rgb(145, 145, 145);
+}
+.searchcont form input {
+    flex: 1; 
+    border: none;
+    outline: none;
+}
+.searchcont form button {
+    background: linear-gradient(80deg, #d12193, #cf23cf);
+    padding: 11px;
+    width: 115px;
+    border: none;
+    outline: none;
+    color: white;
+    letter-spacing: 1;
+    cursor: pointer;
+}
+.searchcont form button:hover{
+    background: white;
+    color: #d12193;
+    border: solid 2px #d12193;
+}
+.searchcont form .fa-search{
+    align-self: center;
+    padding: 10px 20px;
+    color: #777;
+}
+
+
+/* feedback page */
+.feedcontent{
+    max-width: 550px;
+    position: fixed;
+    top: 25%;
+    left: 32%;
+    width: 100%;
+    background: #ffffff;
+    border: 2px solid #e5e4e4;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px;
+    border: solid 2px rgb(204, 204, 204);
+    padding: 30px;
+    animation: slideIn 1s ease forwards; /* Add animation property */
+}
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+.feedmessage {
+    background: white;
+    border-radius: 50px;
+    width: 100%;
+    box-sizing: border-box;
+    resize: none;
+    padding: 10px 65px 14px 15px;
+    font-family: inherit;
+    font-size: 1em;
+    outline: none;
+}
+.feedcontent h2{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 35px;
+    color: #cf2393;
+}
+.feedcontent form .input-field{
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+.feedcontent form .input-field input, textarea{
+    width: 100%;
+    height: 100%;
+    font-size: 0.95rem;
+    border: 2px solid rgb(192, 192, 192);
+    outline: none;
+    border-radius: 3px;
+    padding: 0 15px;
+}
+.feedcontent form textarea{
+    width: 100%;
+    height: 85px;
+}
+.feedcontent form .input-field input:focus{
+    border-color: #cf2393;
+}
+.feedcontent form .input-field input:is(:focus, :valid) {
+    padding: 16px 15px 0;
+}
+.feedcontent form .input-field textarea:focus{
+    border-color: #cf2393;
+}
+.feedcontent form .input-field textarea:is(:focus, :valid) {
+    padding: 16px 15px 0;
+}
+.feedcontent form .input-field label{
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    color: #717171;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: 0.2s ease;
+}
+.feedcontent form .input-field input:is(:focus, :valid) ~ label{
+    color: #cf2393;
+    font-size: 0.75rem;
+    transform: translateY(-120%);
+}
+.feedcontent form .input-field textarea:is(:focus, :valid) ~ label{
+    color: #cf2393;
+    font-size: 0.75rem;
+    transform: translateY(-120%);
+}
+.feedcontent form button{
+    margin-top: 60px;
+}
+
+/* filter */
+.filter{
+    text-align: left;
+    border: solid 2px white;
+    color: white;
+    height: 245px;
+    margin: 5px;
+    margin-right: 7px;
+    border-radius: 5px;
+    font-size: 21px;
+    font-weight: 500;
+    padding: 20px;
+    padding-top: 23px;
+
+}
+.counselling-options {
+    padding-left: 40px;
+}
+/* Increase the size of checkboxes */
+input[type="checkbox"] {
+    transform: scale(1.3);
+    padding: 5px;
+}
+
+/* Increase the size of radio buttons */
+input[type="radio"] {
+    transform: scale(1.3);
+    padding: 5px;
+}
