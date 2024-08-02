@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <!-- Google Fonts Link For Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='chatbotscript.js') }}" defer></script>
+     <!-- Import jQuery -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Additional styling for the profile form */
+.container {
+    max-width: 650px;
+    margin-top: 10%;
+    bottom: 10%;
+    padding: 35px 45px;
+    border-radius: 15px;
+    border: 2px solid rgb(211, 211, 211);
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px;
+}
+
+.container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #cf2393;
+}
+
+.container form .mb-3 input{
+    width: 100%;
+    border: solid 2px rgb(208, 208, 208);
+}
+.container form .input-field input:focus{
+    border-color: #cf2393;
+}
+.container form button {
+    padding: 10px;
+    border: none;
+}
+.container form button:hover {
+    background: white;
+    color: #d12193;
+    border: solid 2px #d12193;
+}
+.form-control {
+    margin-bottom: 15px; 
+}
+.form-control:focus {
+    border-color: #cf2393;
+}
+    </style>
+</head>
+<body>
+    <div class="row">
+        <header class="col-12">
+            <nav class="navbar">
+                <span class="hamburger-btn material-symbols-rounded">menu</span>
+                <button id="goback" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+                <a href="#" class="logo">
+                    <img src="./static/Screenshot (377).png" alt="logo">
+                    <h2>AskDu</h2>
+                </a>
+                <ul class="links">
+                    <span class="close-btn material-symbols-rounded">close</span>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('explore') }}">Explore</a></li>
+                    <li><a href="{{ url_for('feedback') }}">Feedback</a></li>
+                    <li><a href="{{ url_for('aboutus') }}">About us</a></li>
+                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                    </ul>
+            </nav>
+        </header>
+    </div>
+    <div class="container">
+        <h2>Create a New Profile</h2>
+        <form id="profileForm" method="POST" action="{{ url_for('create_profile') }}">
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" required>
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <!-- Add phone number field to the form -->
+           <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="mb-3">
+                <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required>
+            </div>
+            <div class="mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" class="form-control" id="age" name="age" required>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Profile</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const profileForm = document.getElementById('profileForm');
+
+    profileForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Get form inputs
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const dateOfBirth = document.getElementById('dateOfBirth').value;
+        const age = document.getElementById('age').value.trim();
+        const location = document.getElementById('location').value.trim();
+        const gender = document.getElementById('gender').value;
+        const phone = document.getElementById('phone').value.trim(); // Get phone number value
+
+        // Validate inputs
+        if (firstName === '') {
+            alert('Please enter your first name.');
+            return;
+        }
+
+        if (lastName === '') {
+            alert('Please enter your last name.');
+            return;
+        }
+
+        if (email === '' || !isValidEmail(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+
+        if (dateOfBirth === '') {
+            alert('Please enter your date of birth.');
+            return;
+        }
+
+        if (age === '' || isNaN(age) || age <= 0) {
+            alert('Please enter a valid age.');
+            return;
+        }
+
+        if (location === '') {
+            alert('Please enter your location.');
+            return;
+        }
+
+        if (gender === '') {
+            alert('Please select your gender.');
+            return;
+        }
+
+        // Validate phone number
+        if (phone === '' || !isValidPhoneNumber(phone)) {
+            alert('Please enter a valid 10-digit phone number.');
+            return;
+        }
+
+        // If all inputs are valid, you can proceed to submit the form
+        profileForm.submit();
+    });
+
+    // Function to validate email format
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Function to validate phone number format
+    function isValidPhoneNumber(phone) {
+        const phoneRegex = /^\d{10}$/; // Regular expression for 10-digit phone number
+        return phoneRegex.test(phone);
+    }
+});
+
+    </script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <script>
+                alert('{{ message }}')
+            </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</html>

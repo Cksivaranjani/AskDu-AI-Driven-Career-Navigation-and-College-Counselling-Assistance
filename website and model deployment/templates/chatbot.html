@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chatbot Page</title>
+    <!-- Google Fonts Link For Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='chatbotscript.js') }}" defer></script>
+    <!-- pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+     <!-- Import jQuery -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <style>
+        body{
+          background: url("./static/chatbot\ background.jpg") center/cover no-repeat;
+          border-bottom: solid 2px white;
+        }
+        header{
+          border-bottom: solid 2px white;
+          background: local;
+        }
+        /* history */
+        .history {
+        text-align: left;
+        border: solid 2px white;
+        color: white;
+        height: 245px;
+        margin: 5px;
+        border-radius: 5px;
+        margin-right: 7px;
+        font-size: 21px;
+        font-weight: 500;
+        padding: 20px;
+        padding-top: 23px;
+        overflow-y: auto;
+    }
+
+    .conversation-heading {
+        cursor: pointer; /* Change cursor to pointer on hover */
+        padding: 10px; /* Add padding to the headings */
+        margin: 5px 0; /* Add margin to separate headings */
+        position: relative; /* Relative positioning for absolute icons */
+        font-size: 15px;
+    }
+
+    .conversation-heading:hover {
+        background-color: #ffffff;
+        color: #cf2393;
+        border-radius: 5px;
+    }
+
+    /* Styles for action icons */
+    .actions {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        opacity: 0; /* Hide icons by default */
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .conversation-heading:hover .actions {
+        opacity: 1; /* Show icons on hover */
+    }
+
+    /* Styles for edit and delete icons */
+    .edit-icon,
+    .delete-icon {
+        margin-left: 10px;
+        color: #cf2393;
+        font-size: 16px;
+    }
+
+    .history i{
+        margin-left: 10px; 
+    }
+    .history .newchat{
+        text-align: center;
+    }
+    .history button{
+    border: none;
+    outline: none;
+    background: #fff;
+    color: #d12193;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.15s ease;
+    width: 50%;
+    margin-bottom: 5px;
+    }
+    .history button:hover{
+        background: #ddd;
+}
+
+   .filter i {
+    margin-right: 10px; /* Adjust spacing between icon and text */
+}
+    </style>
+</head>
+<body>
+    <div class="row">
+    <header class="col-12">
+        <nav class="navbar">
+            <span class="hamburger-btn material-symbols-rounded">menu</span>
+            <button id="goback" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <a href="#" class="logo">
+                <img src="./static/Screenshot (377).png" alt="logo">
+                <h2>AskDu</h2>
+            </a>
+            <ul class="links">
+                <span class="close-btn material-symbols-rounded">close</span>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('explore') }}">Explore</a></li>
+                <li><a href="{{ url_for('feedback') }}">Feedback</a></li>
+                <li><a href="{{ url_for('aboutus') }}">About us</a></li>
+                <li><a href="{{ url_for('profile') }}">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+    </div>
+    <div class="sidebar">
+        <div class="history">
+            <p> <i class="fas fa-history"></i> History</p>
+            <!-- <div class="newchat">
+                <button type="submit">New Chat</button>
+            </div> -->
+            <!-- <div class="conversation-popup"></div> -->
+            <div id="conversation-list">
+                <div class="conversation-heading">
+                    Exploring Top Universities
+                    <span class="actions">
+                        <i class="fas fa-pen edit-icon" title="Edit"></i>
+                        <i class="fas fa-trash delete-icon" title="Delete"></i>
+                    </span>
+                </div>
+                <div class="conversation-heading">
+                    Journey Through Higher Education
+                    <span class="actions">
+                        <i class="fas fa-pen edit-icon" title="Edit"></i>
+                        <i class="fas fa-trash delete-icon" title="Delete"></i>
+                    </span>
+                </div>
+                <div class="conversation-heading">
+                    Unveiling Best Academic Pathways
+                    <span class="actions">
+                        <i class="fas fa-pen edit-icon" title="Edit"></i>
+                        <i class="fas fa-trash delete-icon" title="Delete"></i>
+                    </span>
+                </div>
+                <div class="conversation-heading">
+                    Discovering Educational Opportunities
+                    <span class="actions">
+                        <i class="fas fa-pen edit-icon" title="Edit"></i>
+                        <i class="fas fa-trash delete-icon" title="Delete"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="calmodule">
+        <button class="cutcal">Cutoff Calculator</button>
+        </div>
+        <div class="filter">
+            <p>Filter <i class="fas fa-filter"></i> </p>
+            <div>
+                <input type="radio" id="counselling" name="filterType" value="counselling">
+                <label for="counselling">Counselling</label>
+            </div>
+            <div class="counselling-options" style="display: none;">
+                <div>
+                    <input type="checkbox" id="cutoff" name="cutoff">
+                    <label for="cutoff">Cutoff</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="community" name="community">
+                    <label for="community">Community</label>
+                </div>
+            </div>
+            <div>
+                <input type="radio" id="exam" name="filterType" value="exam">
+                <label for="exam">Exam</label>
+            </div>
+        </div>
+
+        <div class="downmodule">
+        <button class="download" id="download">Download</button>
+        </div>
+    </div>
+    <div class="chatbox">
+        <div class="conversation" id="conversation">
+            <div class="received-message">
+                <div class="receiver-info">
+                    <img src="./static/Screenshot (377).png"></img> 
+                    <span>AskDu</span>
+                </div>
+                <div class="message received">
+                <div class="message-text">Welcome to AskDu! How can I assist you today?</div>
+                </div>
+            </div>
+            <div class="sent-message">
+                <div class="sender-info">
+                    <span>User</span>
+                    <i class="fas fa-user"></i>
+                </div>
+            <div class="message sent">
+                <div class="message-text">Hi, I have a question about admissions.</div>
+            </div>
+            </div>
+            <div class="received-message">
+                <div class="receiver-info">
+                    <img src="./static/Screenshot (377).png"></img> 
+                    <span>AskDu</span>
+                </div>
+                <div class="message received">
+                <div class="message-text">Great! Please enter your Cutoff, if you're not sure, you can use our cutoff calculator.</div>
+                </div>
+            </div>
+            {% for message in messages %}
+                {% if message[0] == 'user' %}
+                    <div class="sent-message">
+                        <div class="sender-info">
+                            <span>User</span>
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-text">{{ message[1] }}</div>
+                        </div>
+                    </div>
+                {% elif message[0] == 'bot' %}
+                    <div class="received-message">
+                        <div class="receiver-info">
+                            <img src="./static/Screenshot (377).png"></img>
+                            <span>AskDu</span>
+                        </div>
+                        <div class="message received">
+                            <div class="message-text">{{ message[1] }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div id="message-form">
+            <form action="" id="user-message-form">
+            <div class="message-wrapper">
+                <textarea id="message" rows="1" placeholder="Send a message...."></textarea>
+                <div class="sendbtn">
+                <button class="send-button" onclick="sendMessage()">Send <i class="fa fa-paper-plane"></i></button>
+                </div>
+            <div>
+            </form>
+        </div>
+    </div>
+    <!-- calculator popup -->
+    <div class="cal-blur-bg-overlay"></div>
+    <div class="calculator-popup">
+        <span class="close-btn material-symbols-rounded">close</span>
+        <div class="calcontent">
+            <h2>CUTOFF CALCULATOR</h2>
+            <h4>Enter Marks:</h4>
+            <form action="/calculate-cutoff" id="marks-form" method="POST">
+                <div class="input-field">
+                    <input type="number" step="0.01" id="physics-mark" name="physicsMark" required>
+                    <label for="physics-mark">Physics</label>
+                </div>
+                <div class="input-field">
+                    <input type="number" step="0.01" id="chemistry-mark" name="chemistryMark" required>
+                    <label for="chemistry-mark">Chemistry</label>
+                </div>
+                <div class="input-field">
+                    <input type="number" step="0.01" id="maths-mark" name="mathsMark" required>
+                    <label for="maths-mark">Maths</label>
+                </div>
+                <button type="submit">Calculate</button>
+            </form>
+            <div id="result" name="cutoffScore" ></div>
+        </div>
+    </div>
+
+<!-- download popup -->
+<div class="down-blur-bg-overlay"></div>
+<div class="download-popup" id="download-popup">
+    <span class="close-btn material-symbols-rounded">close</span>
+    <div class="downcontent" id="pdf-content">
+        <h2>Report</h2>
+        <!-- Add your content here -->
+        <div class="received-message">
+            your cutoff mark
+        </div>
+        {% for message in messages %}
+            {% if message[0] == 'user' %}
+                <div class="sent-message">
+                    <div class="message-text">{{ message[1] }}</div>
+                </div>
+            {% elif message[0] == 'bot' %}
+                <div class="received-message">
+                    <div class="message-text">{{ message[1] }}</div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <button id="generate-pdf">Generate PDF</button>
+</div>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        <script>
+            alert('{{ message }}')
+        </script>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+
+<!-- JavaScript code to handle printing as PDF -->
+<script>
+    document.getElementById('generate-pdf').addEventListener('click', function() {
+        // Select the element containing the content you want to convert to PDF
+        const element = document.getElementById('pdf-content');
+
+        // Options for PDF generation (optional)
+        const options = {
+            margin: 0.5,
+            filename: 'chatbot_analysis_report.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        // Generate PDF from the selected element
+        html2pdf().from(element).set(options).save();
+        alert("PDF Saved Successfully")
+
+    });
+
+// filter 
+document.addEventListener('DOMContentLoaded', function() {
+    var counsellingRadio = document.getElementById('counselling');
+    var counsellingOptions = document.querySelector('.counselling-options');
+    var examRadio = document.getElementById('exam');
+
+    counsellingRadio.addEventListener('change', function() {
+        if (counsellingRadio.checked) {
+            counsellingOptions.style.display = 'block';
+        } else {
+            counsellingOptions.style.display = 'none';
+        }
+    });
+
+    examRadio.addEventListener('change', function() {
+        if (examRadio.checked) {
+            counsellingOptions.style.display = 'none';
+        }
+    });
+});
+
+// // history
+// // JavaScript code for edit and delete functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to handle edit icon click
+    function handleEditClick(event) {
+        // Get the conversation heading element
+        var conversationHeading = event.target.closest('.conversation-heading');
+
+        // Get the ID of the conversation
+        var conversationId = conversationHeading.dataset.id;
+
+        // Show an alert message for editing
+        var newMessage = prompt('Enter the new message:');
+        if (newMessage !== null) {
+            conversationHeading.textContent = newMessage;
+        }
+    }
+
+    // Function to handle delete icon click
+    function handleDeleteClick(event) {
+        // Get the conversation heading element
+        var conversationHeading = event.target.closest('.conversation-heading');
+
+        // Get the message of the conversation
+        var message = conversationHeading.textContent;
+
+        // Confirm before deleting
+        var confirmDelete = confirm(`Are you sure you want to delete the conversation ?`);
+        if (confirmDelete) {
+            // Remove the conversation heading
+            conversationHeading.remove();
+        }
+    }
+
+    // Attach event listeners to edit icons
+    var editIcons = document.querySelectorAll('.edit-icon');
+    editIcons.forEach(function(icon) {
+        icon.addEventListener('click', handleEditClick);
+    });
+
+    // Attach event listeners to delete icons
+    var deleteIcons = document.querySelectorAll('.delete-icon');
+    deleteIcons.forEach(function(icon) {
+        icon.addEventListener('click', handleDeleteClick);
+    });
+});
+
+// new chat conversation
+
+// document.addEventListener('DOMContentLoaded', function () {
+//             const conversation = document.getElementById('conversation');
+//             const newChatButton = document.querySelector('.new-chat-button');
+
+//             // Function to store the initial state of the conversation box
+//             function storeInitialState() {
+//                 initialState = conversation.innerHTML;
+//             }
+
+//             // Store the initial state of the conversation box
+//             let initialState = conversation.innerHTML;
+
+//             // Event listener for the "New Chat" button
+//             newChatButton.addEventListener('click', function() {
+//                 // Reset the conversation box to its initial state
+//                 conversation.innerHTML = initialState;
+//             });
+
+//             // Call the storeInitialState function when the page loads to capture the initial state
+//             storeInitialState();
+//         });
+
+
+// previous conversation message
+// document.addEventListener('DOMContentLoaded', function () {
+//             const conversationList = document.getElementById('conversation-list');
+//             const conversationPopup = document.getElementById('conversation-popup');
+//             const popupContent = document.getElementById('popup-content');
+
+//             // Function to store conversation messages in local storage
+//             function storeConversationMessages(conversationId, messages) {
+//                 localStorage.setItem(`conversation_${conversationId}`, JSON.stringify(messages));
+//             }
+
+//             // Function to retrieve conversation messages from local storage
+//             function getConversationMessages(conversationId) {
+//                 return JSON.parse(localStorage.getItem(`conversation_${conversationId}`));
+//             }
+
+//             // Event listener for conversation list items
+//             conversationList.addEventListener('click', function(event) {
+//                 const conversationHeading = event.target.closest('.conversation-heading');
+//                 if (conversationHeading) {
+//                     const conversationId = conversationHeading.dataset.id;
+//                     const messages = getConversationMessages(conversationId);
+//                     if (messages) {
+//                         // Display the messages in the popup
+//                         popupContent.innerHTML = ''; // Clear previous content
+//                         messages.forEach(message => {
+//                             const messageDiv = document.createElement('div');
+//                             messageDiv.textContent = message;
+//                             popupContent.appendChild(messageDiv);
+//                         });
+//                         // Show the popup
+//                         conversationPopup.classList.add('show');
+//                     }
+//                 }
+//             });
+
+//             // Function to close the conversation popup
+//             function closeConversationPopup() {
+//                 conversationPopup.classList.remove('show');
+//             }
+
+//             // Event listener for the close button on the conversation popup
+//             conversationPopup.querySelector('.close-btn').addEventListener('click', closeConversationPopup);
+
+//             // Store conversation messages when they are displayed in the conversation list
+//             // Replace this with your actual logic for displaying conversation messages
+//             function displayConversationMessages(conversationId, messages) {
+//                 // Display the conversation in the conversation list
+//                 const conversationHeading = document.createElement('div');
+//                 conversationHeading.classList.add('conversation-heading');
+//                 conversationHeading.textContent = `Conversation ${conversationId}`;
+//                 conversationHeading.dataset.id = conversationId;
+//                 conversationList.appendChild(conversationHeading);
+
+//                 // Store the conversation messages in local storage
+//                 storeConversationMessages(conversationId, messages);
+//             }
+
+//             // Example usage: Display conversation messages in the conversation list
+//             displayConversationMessages(1, ['Message 1', 'Message 2', 'Message 3']);
+//             displayConversationMessages(2, ['Message A', 'Message B', 'Message C']);
+//         });
+
+</script>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</html>
